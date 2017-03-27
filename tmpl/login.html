@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group {
+				margin: 20px 0 10px;
+			}
+			
+			#login {
+				width: 90%;
+				margin: 0 auto;
+				display: block;
+			}
+			
+			#register {
+				float: right;
+				margin: 15px 5%;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用户名</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input type="password" class="mui-input-password" placeholder="请输入密码">
+				</div>
+			</form>
+			<button id="login" type="button" class="mui-btn mui-btn-primary">登录</button>
+			<button id="register" type="button" class="mui-btn mui-btn-blue mui-btn-outlined">还没有账号？点击注册</button>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+//			点登录按钮
+			mui('.mui-content').on('tap','#login',function(){
+//				验证
+				var check = true;//初始化验证状态
+				var reg = /^\w{6,8}$/;
+				mui('.mui-input-group input').each(function(){
+//					如果输入框的值为空,或者是空字符
+					var labelText = this.previousElementSibling.innerHTML;
+					if(!this.value || !this.value.trim()){
+						mui.toast(labelText+'不能为空');
+						check = false;//更改验证状态
+						return false;//退出循环
+					}else if(!reg.test(this.value)){//如果不符合规则
+						mui.toast(labelText+'格式有误');
+						check = false;
+						return false;
+					}
+				})
+//				如果验证通过
+				if(check){
+//					打开用户中心界面 -- 隐藏当前登录界面
+					plus.webview.currentWebview().hide();
+//					登录的ajax。。
+
+	//				记录登录状态
+					localStorage.loginState = 1;
+				}
+			});
+//			16:30上课
+		</script>
+	</body>
+
+</html>

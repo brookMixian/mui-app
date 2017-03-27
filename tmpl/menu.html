@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>菜单页面</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			body,
+			.mui-content {
+				background: #333;
+			}
+			
+			#closeBtn {
+				margin: 10px 10% 30px 10%;
+				padding: 5px 0;
+				width: 80%;
+			}
+			
+			.mui-content>h4 {
+				color: #ddd;
+				font-size: 16px;
+				padding: 30px 15px 15px 15px;
+			}
+			
+			.mui-content>p {
+				padding: 0 15px;
+				text-indent: 2em;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				color: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<h4>侧滑菜单</h4>
+			<p>这是webview模式下的侧滑导航示例，你可以在这里放置任何内容；关闭侧滑菜单有多种方式： 1.点击本侧滑菜单页之外的任意位置; 2.点击如下红色按钮；左滑屏幕等</p>
+			<button id="closeBtn" type="button" class="mui-btn mui-btn-danger mui-btn-block">关闭菜单按钮</button>
+			<ul class="mui-table-view mui-table-view-inverted">
+				<li class="mui-table-view-cell">
+					<a id="home" class="mui-navigate-right">
+						首页
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="contact" class="mui-navigate-right">
+						通讯录
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="friendly" class="mui-navigate-right">
+						朋友圈
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="userCenter" class="mui-navigate-right">
+						用户中心
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var menu;
+			var main;
+			mui.plusReady(function(){
+				menu = plus.webview.currentWebview();
+//				获得当前窗口的创建
+				main = menu.opener();
+			})
+			document.querySelector('#closeBtn')
+			.addEventListener('tap',function(){
+//				webview通讯--自定义触发事件
+//				触发主页面窗口的'colse-menu'事件
+				mui.fire(main,'colse-menu'); 
+			});
+			
+			mui('.mui-table-view').on('tap','a',function(){
+//				触发主页面窗口的'webv-change'事件,并将id传过去
+				mui.fire(main,'webv-change',{
+					selectorId:this.getAttribute('id')
+				});
+			})
+		</script>
+	</body>
+
+</html>

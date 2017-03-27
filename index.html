@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>myApp首页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css"/>
+	</head>
+
+	<body>
+		<!--头-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-bars mui-pull-left"></a>
+			<h1 class="mui-title">首页</h1>
+		</header>
+		<!--底部tab-->
+		<nav class="mui-bar mui-bar-tab">
+			<a id="home" href="tmpl/home.html" class="mui-tab-item mui-active">
+				<!--<i class="iconfont icon-xxx"></i>-->
+				<span class="mui-icon iconfont icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a id="contact" href="tmpl/contact.html" class="mui-tab-item">
+				<!--<span class="mui-icon mui-icon-phone"></span>-->
+				<span class="mui-icon iconfont icon-Contact"></span>
+				<span class="mui-tab-label">通讯录</span>
+			</a>
+			<a id="friendly" href="tmpl/friendly.html" class="mui-tab-item">
+				<!--<span class="mui-icon mui-icon-email"></span>-->
+				<span class="mui-icon iconfont icon-pengyouquan">
+					<span class="mui-badge mui-badge-danger">2</span>
+				</span>
+				<span class="mui-tab-label">朋友圈</span>
+			</a>
+			<a id="userCenter" href="tmpl/userCenter.html" class="mui-tab-item">
+				<!--<span class="mui-icon mui-icon-gear"></span>-->
+				<span class="mui-icon iconfont icon-user"></span>
+				<span class="mui-tab-label">用户中心</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				preloadPages:[//预加载登录页面
+					{
+						url:'tmpl/login.html',
+						id:'tmpl/login.html'
+					}
+				]
+			});
+			/****************webview模式tab选项卡*******************/
+			var subpages = [
+				'tmpl/home.html',
+				'tmpl/contact.html',
+				'tmpl/friendly.html',
+				'tmpl/userCenter.html'
+			];
+			var styles = {
+				top:'45px',
+				bottom:'51px'
+			};
+			var main;//初始化当前主窗口
+			mui.plusReady(function(){
+//				获取当前主窗口
+				main = plus.webview.currentWebview();
+//				给主窗口的遮罩层绑定事件监听,并关闭菜单
+				main.addEventListener('maskClick',closeMenu);
+				for(var i = 0;i<subpages.length;i++){
+					//		创建子窗口
+					var subWebv = plus.webview.create(subpages[i],subpages[i],styles);
+	//				默认显示主页面
+					if(i>0){
+						subWebv.hide();//隐藏窗口
+					}
+	//				将创建的子窗口添加进来
+					main.append(subWebv);
+				}
+			});
+
+//			点击tap选项卡窗口切换
+			var activeId = subpages[0];//默认激活项id
+			var title = document.querySelector('.mui-title');//头部标题
+			mui('.mui-bar-tab').on('tap','a',function(){
+//				修改头部信息
+				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+//				获得当前点击对象的id
+				var targetId = this.getAttribute('href');
+				
+				if(activeId == targetId){
+					return;//退出
+				}
+//				如果当前点击的是用户中心
+				if(targetId == 'tmpl/userCenter.html'){
+//					判断当前用户没有登录过
+					if(!localStorage.loginState){//访问对象不存在的属性取值undefined
+//						打开登录窗口
+						mui.openWindow({
+							id:'tmpl/login.html'
+						})
+					}
+				}
+				
+//				隐藏激活项的窗口,传id找到指定窗口并隐藏
+				plus.webview.hide(activeId);
+//				显示当前点击对象的窗口
+				plus.webview.show(targetId);
+//				更改激活项状态
+				activeId = targetId;
+			});
+			
+/********************webview模式侧滑菜单************************/			
+			var menu;//菜单窗口
+			var menuState = false;//初始化菜单打开状态
+			mui.plusReady(function(){
+//				预加载菜单页面
+				menu = mui.preload({
+					url:'tmpl/menu.html',
+					id:'tmpl/menu.html',
+					styles:{
+						width:'70%',
+						zindex:'-1'//防止切换时挡住主页面会有闪光
+					}
+				})
+			})
+			
+//			给头部菜单图标绑定点击事件，并打开菜单
+			document.querySelector('.mui-icon-bars')
+			.addEventListener('tap',openMenu);
+			
+//			监听'colse-menu'事件,并关闭菜单
+			window.addEventListener('colse-menu',closeMenu);
+//			监听'webv-change'事件并关闭菜单和切换窗口
+			window.addEventListener('webv-change',function(e){
+				closeMenu();
+//				获取传过来的id 
+				var id = e.detail.selectorId;
+//				获得当前需要被点击的对象
+				var target = document.getElementById(id);
+//				窗口切换 -- 自动触发指定事件 mui.trigger(dom,event)
+				mui.trigger(target,'tap');//自己点自己，无需用户手动操作
+//				手动处理图标激活状态
+//				找到激活项
+				var active = document.querySelector('.mui-bar-tab a.mui-active');
+//				激活项删除激活类
+				active.classList.remove('mui-active');
+//				点击对象添加激活类
+				target.classList.add('mui-active');
+			});
+			
+			var first = null;//初始化首次点击状态
+//			给安卓机返回按键绑定事件
+			mui.back = function(){
+				if(menuState){
+					closeMenu();
+				}else if(!first){//第一次点击
+					mui.toast('再点击退出应用');
+					first = new Date().getTime();//保存第一次点击的时间戳
+					setTimeout(function(){//一秒后重置时间
+						first = null;
+					},1000)
+				}else if(new Date().getTime() - first < 1000){//第二次点击，并且时间间隔在一秒内
+					plus.runtime.quit();//退出应用
+				}
+			}
+//			给安卓机菜单按键绑定事件
+			mui.menu = function(){
+				if(menuState){
+					closeMenu();
+				}else{
+					openMenu();
+				}
+			}
+//			打开菜单逻辑
+			function openMenu(){
+//				如果菜单为关闭状态
+				if(!menuState){
+					//设置主窗口样式
+					main.setStyle({
+						left:'70%',
+						mask:'rgba(0,0,0,.4)'
+					}),
+					menu.show();//显示菜单
+//					修改菜单打开状态
+					menuState = true;
+				}
+			}
+//			关闭菜单逻辑
+			function closeMenu(){
+				if(menuState){
+					main.setStyle({
+						left:0,
+						mask:'none'
+					})
+//					延迟150毫秒隐藏
+					setTimeout(function(){
+						menu.hide();//隐藏菜单
+					},150)
+					//修改菜单打开状态
+					menuState = false;
+				}
+			}
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,109 @@
+{
+  "index.html": {
+    "resources": [
+      "tmpl/list.html",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "tmpl/home.html",
+      "fonts/iconfont.css",
+      "fonts/iconfont.woff"
+    ],
+    "refer": [
+      "tmpl/list.html",
+      "tmpl/contact.html",
+      "tmpl/userCenter.html",
+      "tmpl/friendly.html",
+      "tmpl/home.html",
+      "tmpl/menu.html",
+      "tmpl/login.html"
+    ]
+  },
+  "tmpl/menu.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  },
+  "tmpl/home.html": {
+    "resources": [
+      "images/2.jpg",
+      "images/1.jpg",
+      "images/3.jpg",
+      "images/4.jpg",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "data/data_list.json",
+      "tmpl/detail.html"
+    ],
+    "refer": [
+      "tmpl/detail.html"
+    ]
+  },
+  "tmpl/detail.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "images/1.jpg",
+      "css/mui.min.css",
+      "data/product_01.json",
+      "data/product_02.json",
+      "data/product_03.json",
+      "data/product_04.json",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js"
+    ]
+  },
+  "tmpl/friendly.html": {
+    "resources": [
+      "fonts/iconfont.css",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "images/con-3.jpg",
+      "fonts/mui.ttf",
+      "images/con-4.jpg",
+      "fonts/iconfont.woff",
+      "images/2.png",
+      "images/1.png",
+      "images/3.png",
+      "data/friendly.json",
+      "images/4.png",
+      "images/con-2.jpg",
+      "images/con-1.jpg"
+    ]
+  },
+  "tmpl/contact.html": {
+    "resources": [
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "images/con-3.jpg",
+      "images/con-4.jpg",
+      "images/con-2.jpg",
+      "images/6.jpg",
+      "images/con-1.jpg",
+      "data/contact_list.json"
+    ]
+  },
+  "tmpl/userCenter.html": {
+    "resources": [
+      "images/6.jpg",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "tmpl/login.html"
+    ]
+  },
+  "tmpl/login.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  }
+}

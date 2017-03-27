@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>详情页</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			img {
+				width: 100%;
+			}
+		</style>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"></h1>
+		</header>
+		<div class="mui-content mui-content-padded">
+			<!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore repellat quam quod quos consequuntur nemo quisquam. Explicabo quo nam illo obcaecati dolorem recusandae quaerat perspiciatis nulla natus rem rerum autem!</p>
+		    <p><img src="../images/1.jpg" alt="" /></p>
+		    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore repellat quam quod quos consequuntur nemo quisquam. Explicabo quo nam illo obcaecati dolorem recusandae quaerat perspiciatis nulla natus rem rerum autem!</p>
+		    <p><img src="../images/1.jpg" alt="" /></p>
+		    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore repellat quam quod quos consequuntur nemo quisquam. Explicabo quo nam illo obcaecati dolorem recusandae quaerat perspiciatis nulla natus rem rerum autem!</p>
+		    <p><img src="../images/1.jpg" alt="" /></p>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var title = document.querySelector('.mui-title'); //标题
+			var content = document.querySelector('.mui-content'); //盒子
+			//			监听'getDataId'事件
+			window.addEventListener('getDataId', function(e) {
+				//				获取传过来的数据id
+				var data = e.detail.dataId;
+				//				通过id向服务器端请求对应的数据
+				//				mui.get(url,{id:data},function(data){},'json')
+				//				模拟服务器端数据处理
+				mui.get('../data/product_' + data + '.json', {}, function(data) {
+					console.log(JSON.stringify(data));
+					//					先清空盒子中的数据
+					content.innerHTML = '';
+					//					将数据填充到页面
+					title.innerHTML = data.title;
+					for(var i = 0; i < 3; i++) {
+						var p = document.createElement('p');
+						p.innerHTML = data.info;
+						var p2 = document.createElement('p');
+						p2.innerHTML = '<img data-preview-src="" data-preview-group="1" src="../images/' + data.img + '" alt="" />'
+							//						追加到页面渲染
+						content.appendChild(p);
+						content.appendChild(p2);
+					}
+//					预览图片组件初始化
+					mui.previewImage();
+				}, 'json');
+			})
+		</script>
+	</body>
+
+</html>

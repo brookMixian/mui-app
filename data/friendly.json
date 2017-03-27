@@ -1,0 +1,42 @@
+[
+	{
+		"headImage":"con-1.jpg",
+		"dearName":"小M",
+		"sendTime":"2016-06-03 15:30",
+		"imgURL":"1.png",
+		"info":"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi distinctio doloribus quos possimus quae sint eum rem nam fugit similique sapiente tenetur dolorem vel excepturi ullam eos animi pariatur reprehenderit.",
+		"good":"1111",
+		"discuss":"600",
+		"timer":"1小时前"
+	},
+	{
+		"headImage":"con-2.jpg",
+		"dearName":"小M",
+		"sendTime":"2016-06-03 15:30",
+		"imgURL":"2.png",
+		"info":"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi distinctio doloribus quos possimus quae sint eum rem nam fugit similique sapiente tenetur dolorem vel excepturi ullam eos animi pariatur reprehenderit.",
+		"good":"1111",
+		"discuss":"600",
+		"timer":"2小时前"
+	},
+	{
+		"headImage":"con-3.jpg",
+		"dearName":"小M",
+		"sendTime":"2016-06-03 15:30",
+		"imgURL":"3.png",
+		"info":"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi distinctio doloribus quos possimus quae sint eum rem nam fugit similique sapiente tenetur dolorem vel excepturi ullam eos animi pariatur reprehenderit.",
+		"good":"1111",
+		"discuss":"600",
+		"timer":"4小时前"
+	},
+	{
+		"headImage":"con-4.jpg",
+		"dearName":"小M",
+		"sendTime":"2016-06-03 15:30",
+		"imgURL":"4.png",
+		"info":"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi distinctio doloribus quos possimus quae sint eum rem nam fugit similique sapiente tenetur dolorem vel excepturi ullam eos animi pariatur reprehenderit.",
+		"good":"1111",
+		"discuss":"600",
+		"timer":"7小时前"
+	}
+]

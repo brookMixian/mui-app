@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			/*轮播样式*/
+			
+			.mui-slider-indicator .mui-active.mui-indicator {
+				background: blue;
+			}
+			
+			.mui-slider-indicator .mui-indicator {
+				width: 30px;
+				height: 3px;
+				border-radius: 0;
+				background: #ddd;
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			/*图片样式*/
+			
+			.mui-table-view .mui-media-object {
+				-webkit-flex: 0 0 80px;
+				max-width: 80px;
+				height: auto;
+			}
+			
+			.mui-media-body {
+				padding-right: 15px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				display: -webkit-flex;
+				/*垂直居中对齐*/
+				align-items: center;
+			}
+			
+			.timer {
+				position: absolute;
+				right: 18px;
+				top: 8px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--轮播组件-->
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="../images/4.jpg">
+							</a>
+						</div>
+						<!-- 第一张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../images/1.jpg">
+							</a>
+						</div>
+						<!-- 第二张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../images/2.jpg">
+							</a>
+						</div>
+						<!-- 第三张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../images/3.jpg">
+							</a>
+						</div>
+						<!-- 第四张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../images/4.jpg">
+							</a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="../images/1.jpg">
+							</a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+				<!--数据列表-->
+				<ul id="dataListBox" class="mui-table-view">
+					<!--<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;" class="mui-navigate-right">
+							<img class="mui-media-object mui-pull-left" src="../images/1.jpg">
+							<div class="mui-media-body">
+								幸福
+								<p class="mui-ellipsis-2">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+							</div>
+						</a>
+						<h5 class="timer">1小时前</h5>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				preloadPages:[//预加载详情页
+					{
+						url:'detail.html',
+						id:'detail.html'
+					}
+				],
+				pullRefresh: { //初始化组件容器
+					container: '#refreshContainer', //组件容器选择器
+					down: { //下拉配置
+						callback: pullDownRefresh //下拉的回调
+					},
+					up: { //上拉配置
+						callback: pullUpRefresh, //上拉的回调
+						auto:true//默认加载一次
+					}
+				}
+				
+			});
+			var dataListBox = document.querySelector('#dataListBox');//
+			//			下拉的逻辑
+			function pullDownRefresh() {
+//				刷新当前页面
+				plus.webview.currentWebview().reload();//刷新当前页面
+//				关闭雪花等待框
+				 mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+			}
+			var counter = 0;
+			//			上拉的逻辑
+			function pullUpRefresh() {
+//				页面加载即获取服务端数据
+				mui.get('../data/data_list.json',{},function(data){
+	//				测试
+					console.log(data);
+	//				将数据填充到页面
+					for(var i = 0;i<data.length;i++){
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						li.innerHTML = '<a data-id="'+data[i].dataId+'" href="detail.html" class="mui-navigate-right">\
+											<img class="mui-media-object mui-pull-left" src="../images/'+data[i].img+'">\
+											<div class="mui-media-body">\
+												'+data[i].title+'\
+												<p class="mui-ellipsis-2">'+data[i].info+'</p>\
+											</div>\
+										</a>\
+										<h5 class="timer">'+data[i].timer+'</h5>';
+	//					将创建好的产品追加的页面渲染				
+						dataListBox.appendChild(li);
+					}
+//					关闭等待框
+					mui('#refreshContainer').pullRefresh()
+					.endPullupToRefresh( counter++ > 2 );//参数为true表示没有更多数据
+					
+					var detail;//详情窗口
+//					给产品列表项绑定点击事件--页面跳转(打开新窗口)
+					mui('#dataListBox').on('tap','a',function(){
+//						打开新窗口
+						mui.openWindow({
+							id:'detail.html'
+						}); 
+//						获取详情窗口
+						detail = plus.webview.getWebviewById('detail.html');
+//						触发detail页的getDataId事件并传参数过去
+						mui.fire(detail,'getDataId',{
+							dataId:this.getAttribute('data-id')
+						})
+					}) 
+				},'json')
+			}
+		</script>
+	</body>
+
+</html>

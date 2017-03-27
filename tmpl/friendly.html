@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<style>
+			.mui-card-footer,
+			.mui-card-header {
+				-webkit-justify-content: flex-start;
+				-webkit-align-items: center;
+			}
+			
+			.mui-card-header>img:first-child {
+				border-radius: 50%;
+				margin-right: 10px;
+				height: 40px;
+				width: auto;
+			}
+			
+			.mui-media-body {
+				position: relative;
+				top: 7px;
+			}
+			
+			.mui-card-content img {
+				width: 100%;
+			}
+			
+			.mui-card-content p {
+				text-align: justify;
+			}
+			
+			.mui-btn-blue,
+			.mui-btn-primary,
+			input[type=submit] {
+				border: 1px solid transparent;
+				padding: 4px 6px;
+				font-size: 12px;
+			}
+			
+			.mui-card-footer {
+				padding: 10px 4px;
+				display: -webkit-flex;
+				justify-content: space-between;
+			}
+			
+			.mui-h5,
+			h5 {
+				margin-right: 6px;
+			}
+			.good span:nth-of-type(2){
+				padding-left:3px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-content">
+					<!--卡片组-->
+					<div id="cardGroup">
+						<!--<div class="mui-card">
+					<div class="mui-card-header">
+						<img src="../images/logo.png" />
+						<div class="mui-media-body">
+							小M
+							<p>发表于 2016-06-30 15:30</p>
+						</div>
+					</div>
+					<div class="mui-card-content">
+						<img src="../images/1.png" />
+						<p class=" mui-content-padded">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe minima numquam adipisci laborum nostrum repudiandae accusantium deserunt sit ipsa cum explicabo nisi vitae quae doloribus tenetur. Eaque vero eligendi natus.</p>
+					</div>
+					<div class="mui-card-footer">
+						<div>
+							<button type="button" class="mui-btn mui-btn-blue mui-btn-outlined">
+								<span class="iconfont icon-dianzan1"></span> 1111 赞	
+							</button>
+							<button type="button" class="mui-btn mui-btn-blue mui-btn-outlined">
+								<span class="iconfont icon-pinglun"></span> 1111 评论	
+							</button>
+						</div>
+						<h5>1小时前</h5>
+					</div>
+				</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: { //下拉刷新组件初始化
+					container: '#refreshContainer',
+					up: {
+						callback: pullUpRefresh,
+						auto:true
+					},
+					down: {
+						callback: pullDownRefresh
+					}
+				}
+			});  
+			var counter = 0;//加载次数
+			//			上拉加载逻辑
+			function pullUpRefresh() {
+				mui.get('../data/friendly.json', {}, function(data) {
+						console.log(data);
+						//				数据填充到页面
+						for(var i = 0; i < data.length; i++) {
+							var card = document.createElement('div');
+							card.className = 'mui-card';
+							card.innerHTML = '<div class="mui-card-header">\
+										<img src="../images/' + data[i].headImage + '" />\
+										<div class="mui-media-body">\
+											' + data[i].dearName + '\
+											<p>发表于 ' + data[i].sendTime + '</p>\
+										</div>\
+									</div>\
+									<div class="mui-card-content">\
+										<img src="../images/' + data[i].imgURL + '" />\
+										<p class=" mui-content-padded">' + data[i].info + '</p>\
+									</div>\
+									<div class="mui-card-footer">\
+										<div>\
+											<button type="button" class="mui-btn good mui-btn-blue mui-btn-outlined">\
+												<span class="iconfont icon-dianzan1"></span><span>'+data[i].good+' 赞</span>\
+											</button>\
+											<button type="button" class="mui-btn mui-btn-blue mui-btn-outlined">\
+												<span class="iconfont icon-pinglun"></span><span>&nbsp;' + data[i].discuss + ' 评论</span>	\
+											</button>\
+										</div>\
+										<h5>' + data[i].timer + '</h5>\
+									</div>';
+							cardGroup.appendChild(card);
+						}
+						
+//						点赞按钮点击事件
+						mui('.mui-card').on('tap','.good',function(){
+							var span = this.querySelector('span:nth-of-type(2)');
+							var count = parseInt(span.innerHTML);
+							span.innerHTML = ++count+' 赞';
+						})
+					}, 'json')
+					//					关闭等待框
+				mui('#refreshContainer').pullRefresh()
+					.endPullupToRefresh(counter++ > 2); //参数为true表示没有更多数据
+			}
+			//          下拉刷新逻辑
+			function pullDownRefresh(){
+				plus.webview.currentWebview().reload();//刷新当前页面
+//				关闭雪花等待框
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+			}
+			var cardGroup = document.querySelector('#cardGroup');
+		</script>
+	</body>
+
+</html>
